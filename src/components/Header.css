@@ -1,0 +1,140 @@
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(11,12,16,0.94);
+  backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(102,252,241,0.06);
+  overflow: hidden;
+}
+
+/* 흐르는 스캔라인 */
+.hdr-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(102,252,241,0.012) 3px,
+    rgba(102,252,241,0.012) 4px
+  );
+  pointer-events: none;
+}
+
+.hdr-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ── 브랜드 ── */
+.hdr-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.brand-bolt {
+  font-size: 22px;
+  filter: drop-shadow(0 0 10px var(--accent));
+  flex-shrink: 0;
+}
+
+.brand-words {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.brand-top {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.brand-main {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 24px rgba(102,252,241,0.55);
+  animation: glitch 10s 3s infinite;
+}
+
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  margin-left: 32px;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+/* ── 탭 네비 ── */
+.hdr-nav {
+  display: flex;
+  gap: 3px;
+  margin-left: auto;
+  flex-wrap: nowrap;
+}
+
+.hdr-tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 15px;
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.18s, background 0.18s, border-color 0.18s;
+  white-space: nowrap;
+}
+
+.hdr-tab:hover {
+  color: var(--text-bright);
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.hdr-tab--on {
+  color: var(--accent) !important;
+  background: rgba(102,252,241,0.07) !important;
+  border-color: rgba(102,252,241,0.22) !important;
+  box-shadow: 0 0 12px rgba(102,252,241,0.08);
+}
+
+.tab-ic { font-size: 13px; }
+
+@media (max-width: 900px) {
+  .brand-sub { display: none; }
+}
+
+@media (max-width: 760px) {
+  .hdr-inner { height: auto; flex-direction: column; padding: 14px 16px; gap: 10px; }
+  .hdr-nav { flex-wrap: wrap; justify-content: center; margin-left: 0; }
+  .hdr-tab { padding: 5px 11px; font-size: 12px; }
+  .tab-ic { display: none; }
+  .brand-sub { display: none; }
+}

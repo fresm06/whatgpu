@@ -1,0 +1,151 @@
+.val-page { display: flex; flex-direction: column; gap: 40px; }
+
+/* 히어로 */
+.val-hero { display: flex; flex-direction: column; gap: 10px; }
+.val-h1 { display: flex; flex-direction: column; gap: 4px; }
+.val-h1-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.val-h1-main {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 6vw, 48px);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+.val-desc { font-size: 14px; color: var(--text); line-height: 1.75; max-width: 620px; }
+
+/* 랭킹 리스트 */
+.val-list { display: flex; flex-direction: column; gap: 6px; }
+
+.val-row {
+  display: grid;
+  grid-template-columns: 54px 1fr 220px 100px;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.18s, transform 0.15s;
+  animation: fadeInUp 0.35s ease both;
+}
+.val-row:hover { border-color: var(--border-bright); transform: translateX(4px); }
+.val-row--top {
+  background: linear-gradient(135deg, var(--surface-2) 0%, rgba(102,252,241,0.04) 100%);
+  border-color: rgba(102,252,241,0.2);
+}
+
+/* 순위 */
+.val-rank { display: flex; align-items: center; justify-content: center; }
+.val-medal { font-size: 24px; }
+.val-num { font-size: 14px; color: var(--text-dim); }
+
+/* GPU 정보 */
+.val-info { display: flex; flex-direction: column; gap: 5px; }
+.val-info-top { display: flex; gap: 6px; align-items: center; }
+.val-brand {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+}
+.val-tier {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  border: 1px solid;
+}
+.val-name { font-size: 14px; font-weight: 700; color: var(--text-bright); }
+.val-sub { display: flex; gap: 6px; align-items: center; }
+.val-spec { font-size: 11px; color: var(--text-dim); }
+.val-sep { color: var(--border-bright); font-size: 10px; }
+
+/* 점수 바 */
+.val-bar-area { display: flex; flex-direction: column; gap: 5px; }
+.val-bar-track {
+  height: 7px;
+  background: var(--surface-3);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.val-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+  border-radius: 99px;
+  animation: barFill 0.6s ease both;
+}
+.val-score-row { display: flex; align-items: baseline; gap: 4px; }
+.val-score-num { font-size: 18px; font-weight: 700; color: var(--accent); }
+.val-score-label { font-size: 11px; color: var(--text-dim); }
+
+/* 가격 */
+.val-price-col { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.val-price { font-size: 14px; color: var(--accent-2); }
+.val-buy {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: #03C75A;
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  transition: opacity 0.18s;
+}
+.val-buy:hover { opacity: 0.85; }
+
+/* 본문 */
+.val-article {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.va-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 700;
+  color: var(--accent);
+}
+.va-h3 { font-size: 14px; font-weight: 700; color: var(--text-bright); padding-left: 12px; border-left: 3px solid var(--accent-2); }
+.va-p { font-size: 14px; line-height: 1.82; color: var(--text); }
+.va-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 22px;
+  background: rgba(102,252,241,0.04);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+}
+.va-cta span { font-size: 14px; color: var(--text); }
+.va-cta button {
+  padding: 10px 22px;
+  background: var(--accent);
+  color: #0B0C10;
+  border-radius: 99px;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.va-cta button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,252,241,0.3); }
+
+@media (max-width: 760px) {
+  .val-row { grid-template-columns: 44px 1fr 1fr; grid-template-rows: auto auto; }
+  .val-price-col { display: none; }
+  .val-article { padding: 20px; }
+}
+@media (max-width: 520px) {
+  .val-row { grid-template-columns: 36px 1fr; }
+  .val-bar-area { display: none; }
+}

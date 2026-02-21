@@ -1,0 +1,93 @@
+.guide-page { display: flex; flex-direction: column; gap: 36px; }
+
+/* 히어로 */
+.guide-hero { display: flex; flex-direction: column; gap: 10px; }
+.guide-h1 { display: flex; flex-direction: column; gap: 4px; }
+.guide-h1-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.18em; text-transform: uppercase; }
+.guide-h1-main { font-family: var(--font-display); font-size: clamp(30px, 6vw, 48px); font-weight: 900; letter-spacing: 0.05em; }
+.guide-desc { font-size: 14px; color: var(--text); line-height: 1.75; max-width: 620px; }
+
+/* 레이아웃 */
+.guide-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* 사이드바 */
+.guide-sidebar { display: flex; flex-direction: column; gap: 8px; position: sticky; top: 90px; }
+
+.guide-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s;
+}
+.guide-card:hover { border-color: var(--border-bright); background: var(--surface); }
+.guide-card--on {
+  border-color: var(--accent) !important;
+  background: rgba(102,252,241,0.05) !important;
+  box-shadow: 0 0 15px rgba(102,252,241,0.08);
+}
+.guide-card-cat { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; }
+.guide-card-title { font-size: 13px; font-weight: 600; color: var(--text-bright); line-height: 1.4; }
+.guide-card-meta { display: flex; gap: 5px; font-size: 11px; color: var(--text-dim); }
+
+/* 본문 */
+.guide-article {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.ga-header { display: flex; flex-direction: column; gap: 12px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.ga-cat {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border: 1px solid;
+  border-radius: 99px;
+  align-self: flex-start;
+  letter-spacing: 0.04em;
+}
+.ga-title { font-family: var(--font-display); font-size: clamp(18px, 4vw, 24px); font-weight: 700; color: var(--text-bright); line-height: 1.3; }
+.ga-meta { display: flex; gap: 8px; font-size: 12px; color: var(--text-dim); align-items: center; }
+.ga-summary {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.75;
+  padding: 14px 18px;
+  background: rgba(102,252,241,0.04);
+  border-left: 3px solid var(--accent-2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.ga-body { display: flex; flex-direction: column; gap: 24px; }
+.ga-section { display: flex; flex-direction: column; gap: 10px; }
+.ga-section-h {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(102,252,241,0.15);
+}
+.ga-para { font-size: 14px; line-height: 1.85; color: var(--text); }
+
+@media (max-width: 860px) {
+  .guide-layout { grid-template-columns: 1fr; }
+  .guide-sidebar { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
+  .guide-card { min-width: 200px; }
+  .guide-article { padding: 22px; }
+}
