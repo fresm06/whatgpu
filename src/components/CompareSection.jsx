@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
-import { GPUS, BRAND_COLORS, TIER_INFO, getValueScore } from '../data/gpuData'
+import { BRAND_COLORS, TIER_INFO, getValueScore } from '../data/gpuData'
 import './CompareSection.css'
 
 const METRICS = [
-  { key: 'passmark',     label: 'PassMark 점수',    mono: true,  max: 35000, suffix: 'pt', higher: true },
-  { key: 'timeSpy',      label: '3DMark TimeSpy',   mono: true,  max: 23000, suffix: 'pt', higher: true },
-  { key: 'vram',         label: 'VRAM',             mono: true,  max: 24,    suffix: 'GB', higher: true },
-  { key: 'boostClock',   label: '부스트 클럭',       mono: true,  max: 3000,  suffix: 'MHz', higher: true },
-  { key: 'memBandwidth', label: '메모리 대역폭',     mono: true,  max: 1100,  suffix: 'GB/s', higher: true },
-  { key: 'tdp',          label: '소비 전력 (TDP)',   mono: true,  max: 500,   suffix: 'W',  higher: false },
-  { key: 'cores',        label: '코어 수',           mono: true,  max: 17000, suffix: '',   higher: true },
-  { key: 'price',        label: '가격',             mono: true,  max: 2200000, suffix: '원', higher: false, isPrice: true },
+  { key: 'passmark',     label: 'PassMark 점수',    mono: true,  max: 50000,   suffix: 'pt',   higher: true },
+  { key: 'timeSpy',      label: '3DMark TimeSpy',   mono: true,  max: 32000,   suffix: 'pt',   higher: true },
+  { key: 'vram',         label: 'VRAM',             mono: true,  max: 32,      suffix: 'GB',   higher: true },
+  { key: 'boostClock',   label: '부스트 클럭',       mono: true,  max: 3000,    suffix: 'MHz',  higher: true },
+  { key: 'memBandwidth', label: '메모리 대역폭',     mono: true,  max: 1900,    suffix: 'GB/s', higher: true },
+  { key: 'tdp',          label: '소비 전력 (TDP)',   mono: true,  max: 650,     suffix: 'W',    higher: false },
+  { key: 'cores',        label: '코어 수',           mono: true,  max: 22000,   suffix: '',     higher: true },
+  { key: 'price',        label: '가격',             mono: true,  max: 3500000, suffix: '원',   higher: false, isPrice: true },
 ]
 
 function winner(a, b, key, higher) {
@@ -20,20 +20,32 @@ function winner(a, b, key, higher) {
   return a[key] < b[key] ? 'left' : 'right'
 }
 
-export default function CompareSection() {
-  const [leftId,  setLeftId]  = useState(GPUS[0].id)
-  const [rightId, setRightId] = useState(GPUS[3].id)
+export default function CompareSection({ gpus }) {
+  const [leftId,  setLeftId]  = useState(null)
+  const [rightId, setRightId] = useState(null)
   const [reveal,  setReveal]  = useState(false)
   const [query,   setQuery]   = useState({ left: '', right: '' })
 
-  const left  = GPUS.find(g => g.id === leftId)
-  const right = GPUS.find(g => g.id === rightId)
+  // 데이터 로드 후 기본값 설정
+  useEffect(() => {
+    if (gpus.length > 0 && !leftId) {
+      setLeftId(gpus[0].id)
+      setRightId(gpus[3]?.id || gpus[1]?.id || gpus[0].id)
+    }
+  }, [gpus, leftId])
 
-  useEffect(() => { setReveal(false); const t = setTimeout(() => setReveal(true), 80); return () => clearTimeout(t) }, [leftId, rightId])
+  const left  = gpus.find(g => g.id === leftId) || null
+  const right = gpus.find(g => g.id === rightId) || null
+
+  useEffect(() => {
+    setReveal(false)
+    const t = setTimeout(() => setReveal(true), 80)
+    return () => clearTimeout(t)
+  }, [leftId, rightId])
 
   const filteredGpus = (side) => {
     const q = query[side].toLowerCase()
-    return q ? GPUS.filter(g => g.shortName.toLowerCase().includes(q) || g.name.toLowerCase().includes(q)) : GPUS
+    return q ? gpus.filter(g => g.shortName.toLowerCase().includes(q) || g.name.toLowerCase().includes(q)) : gpus
   }
 
   const overallWinner = () => {
@@ -56,7 +68,7 @@ export default function CompareSection() {
       />
       <select
         className="gpu-sel-drop"
-        value={value}
+        value={value || ''}
         onChange={e => { onChange(e.target.value); setQuery(p => ({ ...p, [side]: '' })) }}
       >
         {filteredGpus(side).map(g => (
@@ -151,9 +163,7 @@ export default function CompareSection() {
               const w = winner(left, right, m.key, m.higher)
               const lv = left[m.key]
               const rv = right[m.key]
-              const lPct = m.isPrice
-                ? Math.min(100, (lv / m.max) * 100)
-                : Math.min(100, (lv / m.max) * 100)
+              const lPct = Math.min(100, (lv / m.max) * 100)
               const rPct = Math.min(100, (rv / m.max) * 100)
 
               const fmt = (v) => m.isPrice
@@ -166,30 +176,27 @@ export default function CompareSection() {
                 <div key={m.key} className="cmp-metric">
                   <div className="cmp-metric-label">{m.label}</div>
                   <div className="cmp-bars">
-                    {/* 왼쪽 바 */}
                     <div className="cmp-bar-wrap cmp-bar-wrap--left">
                       <span className={`cmp-bar-val mono${w === 'left' ? ' cmp-bar-val--win' : ''}`}>{fmt(lv)}</span>
                       <div className="cmp-bar-track">
                         <div
                           className={`cmp-bar-fill cmp-bar-fill--left${w === 'left' ? ' cmp-bar-fill--win' : ''}`}
-                          style={{ '--w': `${lPct}%`, width: `${lPct}%` }}
+                          style={{ width: `${lPct}%` }}
                         />
                       </div>
                     </div>
 
-                    {/* 승패 표시 */}
                     <div className="cmp-bar-mid">
                       {w === 'tie' ? <span className="cmp-tie">—</span>
                         : w === 'left'  ? <span className="cmp-win-l">◀</span>
                         : <span className="cmp-win-r">▶</span>}
                     </div>
 
-                    {/* 오른쪽 바 */}
                     <div className="cmp-bar-wrap cmp-bar-wrap--right">
                       <div className="cmp-bar-track">
                         <div
                           className={`cmp-bar-fill cmp-bar-fill--right${w === 'right' ? ' cmp-bar-fill--win' : ''}`}
-                          style={{ '--w': `${rPct}%`, width: `${rPct}%` }}
+                          style={{ width: `${rPct}%` }}
                         />
                       </div>
                       <span className={`cmp-bar-val mono${w === 'right' ? ' cmp-bar-val--win' : ''}`}>{fmt(rv)}</span>

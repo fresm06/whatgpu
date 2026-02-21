@@ -1,9 +1,10 @@
-import { GPUS, BRAND_COLORS, TIER_INFO, getValueScore } from '../data/gpuData'
+import { BRAND_COLORS, TIER_INFO, getValueScore } from '../data/gpuData'
 import './ValueRanking.css'
 
-const sorted = [...GPUS].sort((a, b) => parseFloat(getValueScore(b)) - parseFloat(getValueScore(a)))
+export default function ValueRanking({ gpus, onNavigate }) {
+  const sorted = [...gpus].sort((a, b) => parseFloat(getValueScore(b)) - parseFloat(getValueScore(a)))
+  const maxScore = sorted.length > 0 ? parseFloat(getValueScore(sorted[0])) : 1
 
-export default function ValueRanking({ onNavigate }) {
   return (
     <section className="val-page">
       <div className="val-hero">
@@ -20,7 +21,6 @@ export default function ValueRanking({ onNavigate }) {
       <div className="val-list">
         {sorted.map((gpu, i) => {
           const score = getValueScore(gpu)
-          const maxScore = parseFloat(getValueScore(sorted[0]))
           const barPct = (parseFloat(score) / maxScore) * 100
           const bc = BRAND_COLORS[gpu.brand]
           const ti = TIER_INFO[gpu.tier]
@@ -28,14 +28,12 @@ export default function ValueRanking({ onNavigate }) {
 
           return (
             <div key={gpu.id} className={`val-row${topRank ? ' val-row--top' : ''}`} style={{ animationDelay: `${i * 0.025}s` }}>
-              {/* 순위 */}
               <div className="val-rank">
                 <span className={`val-num mono${topRank ? ' val-num--top' : ''}`}>
                   {String(i + 1).padStart(2, '0')}
                 </span>
               </div>
 
-              {/* GPU 정보 */}
               <div className="val-info">
                 <div className="val-info-top">
                   <span className="val-brand" style={{ color: bc.color, background: bc.bg }}>{gpu.brand}</span>
@@ -51,7 +49,6 @@ export default function ValueRanking({ onNavigate }) {
                 </div>
               </div>
 
-              {/* 점수 바 */}
               <div className="val-bar-area">
                 <div className="val-bar-track">
                   <div
@@ -65,7 +62,6 @@ export default function ValueRanking({ onNavigate }) {
                 </div>
               </div>
 
-              {/* 가격 */}
               <div className="val-price-col">
                 <span className="val-price mono">₩{(gpu.price / 10000).toFixed(0)}만</span>
                 <a
@@ -100,13 +96,12 @@ export default function ValueRanking({ onNavigate }) {
         <p className="va-p">
           50만원대에서는 AMD RX 7800 XT가 단연 돋보입니다. 16GB의 여유로운 VRAM과 QHD에서도 쾌적한 성능을 보여주며,
           FSR 3.0 프레임 생성 기능도 지원합니다. NVIDIA를 선호한다면 RTX 4070이 DLSS 3.0과 Frame Generation을 통해
-          뛰어난 게이밍 경험을 제공합니다. 저전력(200W)이라 전기세 절감 효과도 있습니다.
+          뛰어난 게이밍 경험을 제공합니다.
         </p>
-        <h3 className="va-h3">100만원 이하 — RTX 4070 Ti Super, RX 7900 GRE</h3>
+        <h3 className="va-h3">100만원 이하 — RTX 5070, RX 9070</h3>
         <p className="va-p">
-          100만원 이하에서는 RTX 4070 Ti Super가 16GB VRAM으로 QHD/4K 모두 원활하게 즐길 수 있어 강력 추천합니다.
-          AMD를 선호한다면 RX 7900 GRE가 뛰어난 가성비로 선택받고 있습니다. 이 구간에서는 4K 게이밍도 60fps 이상
-          안정적으로 유지할 수 있어 고해상도 모니터 사용자에게 적합합니다.
+          2025년 출시된 RTX 5070과 RX 9070은 100만원 이하에서 뛰어난 성능을 제공합니다. RTX 5070은 DLSS 4 Multi Frame
+          Generation을 지원하며, RX 9070은 16GB GDDR6와 RDNA 4 아키텍처로 가성비가 탁월합니다.
         </p>
         <div className="va-cta">
           <span>두 GPU를 직접 맞짱 비교해보세요</span>

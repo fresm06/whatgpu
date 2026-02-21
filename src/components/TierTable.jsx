@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { GPUS, TIER_INFO, BRAND_COLORS, getGpusByTier, getValueScore } from '../data/gpuData'
+import { createPortal } from 'react-dom'
+import { TIER_INFO, BRAND_COLORS, getGpusByTier, getValueScore } from '../data/gpuData'
 import './TierTable.css'
 
 const TIER_ORDER = ['S', 'A', 'B', 'C', 'D']
 
-export default function TierTable({ onNavigate }) {
+export default function TierTable({ gpus, onNavigate }) {
   const [filter, setFilter] = useState('ALL')
   const [selected, setSelected] = useState(null)
-  const gpusByTier = getGpusByTier()
+  const gpusByTier = getGpusByTier(gpus)
 
   const BRANDS = ['ALL', 'NVIDIA', 'AMD', 'Intel']
 
@@ -24,11 +25,11 @@ export default function TierTable({ onNavigate }) {
         <h1 className="tier-h1">
           <span className="tier-h1-line">GPU</span>
           <span className="tier-h1-main neon">계급도</span>
-          <span className="tier-h1-sub">2026 최신 그래픽카드 성능 티어표</span>
+          <span className="tier-h1-sub">2026 최신 그래픽카드 성능 티어표 (RTX 50·RX 9000 포함)</span>
         </h1>
         <p className="tier-desc">
-          PassMark 벤치마크 기준으로 50종의 그래픽카드를 S~D 5단계로 분류했습니다.
-          RTX 40·30 시리즈, RX 7000·6000 시리즈, Intel Arc를 한눈에 비교하세요.
+          PassMark 벤치마크 기준으로 {gpus.length}종의 그래픽카드를 S~D 5단계로 분류했습니다.
+          RTX 50·40·30 시리즈, RX 9000·7000·6000 시리즈, Intel Arc를 한눈에 비교하세요.
         </p>
 
         {/* 브랜드 필터 */}
@@ -53,8 +54,8 @@ export default function TierTable({ onNavigate }) {
       {/* 티어 행 */}
       <div className="tier-list">
         {TIER_ORDER.map(tier => {
-          const gpus = filtered(tier)
-          if (!gpus.length) return null
+          const gpuList = filtered(tier)
+          if (!gpuList.length) return null
           const info = TIER_INFO[tier]
           return (
             <div key={tier} className={`tier-row tier-row--${tier.toLowerCase()}`}>
@@ -67,25 +68,20 @@ export default function TierTable({ onNavigate }) {
 
               {/* GPU 카드 그리드 */}
               <div className="tier-cards">
-                {gpus.map((gpu, i) => (
+                {gpuList.map((gpu, i) => (
                   <button
                     key={gpu.id}
                     className="gpu-card"
                     onClick={() => openDetail(gpu)}
                     style={{ animationDelay: `${i * 0.04}s` }}
                   >
-                    {/* 브랜드 뱃지 */}
                     <span
                       className="gpu-brand"
                       style={{ color: BRAND_COLORS[gpu.brand].color, background: BRAND_COLORS[gpu.brand].bg }}
                     >
                       {gpu.brand}
                     </span>
-
-                    {/* GPU 이름 */}
                     <span className="gpu-name">{gpu.shortName}</span>
-
-                    {/* 핵심 스펙 */}
                     <div className="gpu-stats">
                       <span className="gpu-stat">
                         <span className="gs-label">VRAM</span>
@@ -100,8 +96,6 @@ export default function TierTable({ onNavigate }) {
                         <span className="gs-val mono">{gpu.passmark.toLocaleString()}</span>
                       </span>
                     </div>
-
-                    {/* 가격 */}
                     <div className="gpu-price">
                       ₩{(gpu.price / 10000).toFixed(0)}만
                     </div>
@@ -116,24 +110,23 @@ export default function TierTable({ onNavigate }) {
         })}
       </div>
 
-      {/* 본문 콘텐츠 (AdSense용) */}
+      {/* 본문 콘텐츠 */}
       <div className="tier-article">
         <h2 className="ta-h2">2026년 그래픽카드 티어표 — 완벽 해설</h2>
         <p className="ta-p">
           그래픽카드 구매는 예산과 목적에 따라 최적의 선택이 달라집니다. 본 티어표는 PassMark CPU 벤치마크 데이터베이스의
           GPU 점수를 기준으로, 실제 게이밍 성능과 크리에이터 워크로드를 종합적으로 반영하여 S·A·B·C·D 5개 등급으로 분류하였습니다.
         </p>
-        <h3 className="ta-h3">S티어 — 최고 성능의 플래그십 GPU</h3>
+        <h3 className="ta-h3">S티어 — RTX 50·RX 9000 최신 세대 및 플래그십</h3>
         <p className="ta-p">
-          S티어는 현재 시판되는 그래픽카드 중 가장 높은 성능을 보여주는 제품들입니다. RTX 4090은 PassMark 33,211점으로
-          압도적인 1위를 차지하며, 4K 144fps 게이밍과 AI 학습, 영상 편집 등 모든 작업을 불편함 없이 처리합니다.
-          AMD의 RX 7900 XTX는 RTX 4090보다 약 30% 저렴하면서도 4K 게이밍에서 비슷한 성능을 보여 가성비 측면에서 우위를 보입니다.
+          S티어에는 2025년 출시된 NVIDIA Blackwell(RTX 5090/5080/5070 Ti) 및 AMD RDNA 4(RX 9070 XT) 최신 GPU와
+          전세대 플래그십이 포함됩니다. RTX 5090은 PassMark 43,500점으로 압도적인 1위를 기록하며, 32GB GDDR7 메모리와
+          DLSS 4 Multi Frame Generation을 지원합니다. RX 9070 XT는 RTX 4080 Super와 유사한 성능을 더 저렴한 가격에 제공합니다.
         </p>
         <h3 className="ta-h3">A티어 — QHD·4K 게이밍의 현실적인 선택</h3>
         <p className="ta-p">
-          A티어는 RTX 4070 Super, RX 7800 XT 등 60~100만원대 고성능 GPU들이 포진해 있습니다. QHD(2560x1440)에서
-          100fps 이상을 안정적으로 유지하고 4K에서도 60fps 이상을 낼 수 있어, 고해상도 모니터 사용자에게 적합합니다.
-          특히 RTX 4070 Super는 RTX 3090과 비슷한 성능을 220W의 저전력으로 달성해 열효율이 매우 뛰어납니다.
+          A티어는 RTX 5070, RX 9070 등 2025년 신제품과 RTX 4070 Super, RX 7800 XT 등 검증된 고성능 GPU들이 포진해 있습니다.
+          QHD(2560x1440)에서 100fps 이상을 안정적으로 유지하고 4K에서도 60fps 이상을 낼 수 있어, 고해상도 모니터 사용자에게 적합합니다.
         </p>
         <h3 className="ta-h3">B티어 — FHD 종결·QHD 입문 최적의 가성비 구간</h3>
         <p className="ta-p">
@@ -149,13 +142,12 @@ export default function TierTable({ onNavigate }) {
         </div>
       </div>
 
-      {/* GPU 상세 모달 */}
-      {selected && (
+      {/* GPU 상세 모달 — Portal로 body에 직접 렌더링 */}
+      {selected && createPortal(
         <div className="modal-bg" onClick={closeDetail}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={closeDetail}>✕</button>
 
-            {/* 상단 헤더 */}
             <div className="modal-head">
               <span
                 className="modal-brand"
@@ -172,7 +164,6 @@ export default function TierTable({ onNavigate }) {
               </span>
             </div>
 
-            {/* 스펙 테이블 */}
             <div className="modal-specs">
               {[
                 ['VRAM', `${selected.vram}GB ${selected.vramType}`],
@@ -196,7 +187,6 @@ export default function TierTable({ onNavigate }) {
               ))}
             </div>
 
-            {/* 해상도별 추천도 */}
             <div className="modal-res">
               <p className="modal-res-title">해상도별 게이밍 적합도</p>
               {[
@@ -207,24 +197,19 @@ export default function TierTable({ onNavigate }) {
                 <div key={label} className="modal-bar-row">
                   <span className="modal-bar-label">{label}</span>
                   <div className="modal-bar-track">
-                    <div
-                      className="modal-bar-fill"
-                      style={{ '--w': `${val * 10}%`, width: `${val * 10}%` }}
-                    />
+                    <div className="modal-bar-fill" style={{ width: `${val * 10}%` }} />
                   </div>
                   <span className="modal-bar-num mono">{val}/10</span>
                 </div>
               ))}
             </div>
 
-            {/* 하이라이트 */}
             <div className="modal-tags">
               {selected.highlights.map(h => (
                 <span key={h} className="modal-tag">{h}</span>
               ))}
             </div>
 
-            {/* 네이버 쇼핑 링크 */}
             <a
               className="modal-naver"
               href={`https://search.shopping.naver.com/search/all?query=${selected.naverQuery}`}
@@ -234,7 +219,6 @@ export default function TierTable({ onNavigate }) {
               네이버 쇼핑 최저가 보기
             </a>
 
-            {/* 맞짱 비교 CTA */}
             <button
               className="modal-compare-btn"
               onClick={() => { closeDetail(); onNavigate('compare') }}
@@ -242,7 +226,8 @@ export default function TierTable({ onNavigate }) {
               다른 GPU와 맞짱 비교하기 →
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   )
