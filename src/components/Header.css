@@ -76,7 +76,6 @@
   color: var(--accent);
   letter-spacing: 0.08em;
   text-shadow: 0 0 24px rgba(102,252,241,0.55);
-  animation: glitch 10s 3s infinite;
 }
 
 .brand-sub {
