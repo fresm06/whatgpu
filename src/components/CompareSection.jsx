@@ -84,7 +84,6 @@ export default function CompareSection() {
         </div>
         <div className="cmp-vs">
           <span className="cmp-vs-text">VS</span>
-          <div className="cmp-vs-bolt">⚡</div>
         </div>
         <div className="cmp-side cmp-side--right">
           <p className="cmp-side-label">도전자 B ▶</p>
@@ -98,7 +97,7 @@ export default function CompareSection() {
           {/* 상단 카드 요약 */}
           <div className="cmp-cards">
             <div className={`cmp-card${ow === 'left' ? ' cmp-card--winner' : ''}`}>
-              {ow === 'left' && <div className="cmp-winner-badge">👑 승리</div>}
+              {ow === 'left' && <div className="cmp-winner-badge">WIN</div>}
               <span className="cmp-card-brand" style={{ color: BRAND_COLORS[left.brand].color, background: BRAND_COLORS[left.brand].bg }}>{left.brand}</span>
               <h2 className="cmp-card-name">{left.name}</h2>
               <div className="cmp-card-tier" style={{ color: TIER_INFO[left.tier].color }}>{left.tier}티어</div>
@@ -108,7 +107,7 @@ export default function CompareSection() {
                 className="cmp-naver-btn"
                 href={`https://search.shopping.naver.com/search/all?query=${left.naverQuery}`}
                 target="_blank" rel="noopener noreferrer"
-              >🛒 최저가 보기</a>
+              >최저가 보기</a>
             </div>
 
             <div className="cmp-score-mid">
@@ -131,7 +130,7 @@ export default function CompareSection() {
             </div>
 
             <div className={`cmp-card${ow === 'right' ? ' cmp-card--winner' : ''}`}>
-              {ow === 'right' && <div className="cmp-winner-badge">👑 승리</div>}
+              {ow === 'right' && <div className="cmp-winner-badge">WIN</div>}
               <span className="cmp-card-brand" style={{ color: BRAND_COLORS[right.brand].color, background: BRAND_COLORS[right.brand].bg }}>{right.brand}</span>
               <h2 className="cmp-card-name">{right.name}</h2>
               <div className="cmp-card-tier" style={{ color: TIER_INFO[right.tier].color }}>{right.tier}티어</div>
@@ -141,7 +140,7 @@ export default function CompareSection() {
                 className="cmp-naver-btn"
                 href={`https://search.shopping.naver.com/search/all?query=${right.naverQuery}`}
                 target="_blank" rel="noopener noreferrer"
-              >🛒 최저가 보기</a>
+              >최저가 보기</a>
             </div>
           </div>
 
@@ -237,7 +236,7 @@ export default function CompareSection() {
 
           {/* 결론 텍스트 */}
           <div className="cmp-verdict">
-            <h3 className="cmp-verdict-title">⚡ 맞짱 결과</h3>
+            <h3 className="cmp-verdict-title">◆ 맞짱 결과</h3>
             {ow === 'tie' ? (
               <p className="cmp-verdict-text">두 GPU의 종합 성능이 <strong>동일합니다.</strong> 가격이 더 저렴한 쪽 또는 VRAM·전력 소모를 기준으로 선택하세요.</p>
             ) : (

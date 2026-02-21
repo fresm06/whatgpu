@@ -41,8 +41,8 @@
 
 /* 순위 */
 .val-rank { display: flex; align-items: center; justify-content: center; }
-.val-medal { font-size: 24px; }
-.val-num { font-size: 14px; color: var(--text-dim); }
+.val-num { font-size: 13px; color: var(--text-dim); letter-spacing: 0.04em; }
+.val-num--top { font-size: 15px; font-weight: 700; color: var(--accent); }
 
 /* GPU 정보 */
 .val-info { display: flex; flex-direction: column; gap: 5px; }

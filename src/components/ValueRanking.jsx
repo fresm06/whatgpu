@@ -24,16 +24,15 @@ export default function ValueRanking({ onNavigate }) {
           const barPct = (parseFloat(score) / maxScore) * 100
           const bc = BRAND_COLORS[gpu.brand]
           const ti = TIER_INFO[gpu.tier]
-          const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : null
+          const topRank = i < 3
 
           return (
-            <div key={gpu.id} className={`val-row${i < 3 ? ' val-row--top' : ''}`} style={{ animationDelay: `${i * 0.025}s` }}>
+            <div key={gpu.id} className={`val-row${topRank ? ' val-row--top' : ''}`} style={{ animationDelay: `${i * 0.025}s` }}>
               {/* 순위 */}
               <div className="val-rank">
-                {medal
-                  ? <span className="val-medal">{medal}</span>
-                  : <span className="val-num mono">#{i + 1}</span>
-                }
+                <span className={`val-num mono${topRank ? ' val-num--top' : ''}`}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
               </div>
 
               {/* GPU 정보 */}

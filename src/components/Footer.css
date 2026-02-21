@@ -19,13 +19,13 @@
   align-items: center;
   gap: 8px;
 }
-.footer-bolt { font-size: 18px; filter: drop-shadow(0 0 6px var(--accent)); }
+.footer-mark { font-size: 13px; color: var(--accent); text-shadow: 0 0 8px rgba(102,252,241,0.6); }
 .footer-title {
-  font-family: var(--font-display);
-  font-size: 16px;
+  font-family: var(--font-logo);
+  font-size: 15px;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; max-width: 500px; }

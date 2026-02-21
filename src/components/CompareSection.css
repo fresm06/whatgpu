@@ -67,15 +67,11 @@
   flex-shrink: 0;
 }
 .cmp-vs-text {
-  font-family: var(--font-display);
+  font-family: var(--font-logo);
   font-size: 28px;
   font-weight: 900;
   color: var(--accent);
   text-shadow: 0 0 30px rgba(102,252,241,0.6);
-}
-.cmp-vs-bolt {
-  font-size: 22px;
-  animation: pulse 2s infinite;
 }
 
 /* 결과 영역 */

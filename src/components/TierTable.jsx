@@ -231,7 +231,7 @@ export default function TierTable({ onNavigate }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              🛒 네이버 쇼핑에서 최저가 보기
+              네이버 쇼핑 최저가 보기
             </a>
 
             {/* 맞짱 비교 CTA */}
@@ -239,7 +239,7 @@ export default function TierTable({ onNavigate }) {
               className="modal-compare-btn"
               onClick={() => { closeDetail(); onNavigate('compare') }}
             >
-              ⚔️ 다른 GPU와 맞짱 비교하기
+              다른 GPU와 맞짱 비교하기 →
             </button>
           </div>
         </div>

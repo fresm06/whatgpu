@@ -189,7 +189,7 @@ export default function GuideSection() {
               <div className="ga-meta">
                 <span className="mono">{article.date}</span>
                 <span>·</span>
-                <span>⏱ 읽기 {article.readTime}</span>
+                <span>읽기 {article.readTime}</span>
               </div>
               <p className="ga-summary">{article.summary}</p>
             </div>

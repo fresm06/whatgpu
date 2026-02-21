@@ -5,7 +5,7 @@ export default function Footer({ onNavigate }) {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <span className="footer-bolt">⚡</span>
+          <span className="footer-mark">◆</span>
           <span className="footer-title">그래픽카드 맞짱</span>
         </div>
         <p className="footer-desc">
@@ -13,11 +13,11 @@ export default function Footer({ onNavigate }) {
         </p>
         <nav className="footer-nav">
           {[
-            ['tier',    '⚡ 티어표'],
-            ['compare', '⚔️ 맞짱 비교'],
-            ['value',   '💰 가성비 랭킹'],
-            ['guide',   '📖 구매 가이드'],
-            ['faq',     '❓ FAQ'],
+            ['tier',    '티어표'],
+            ['compare', '맞짱 비교'],
+            ['value',   '가성비 랭킹'],
+            ['guide',   '구매 가이드'],
+            ['faq',     'FAQ'],
           ].map(([id, label]) => (
             <button key={id} className="footer-link" onClick={() => onNavigate(id)}>{label}</button>
           ))}
