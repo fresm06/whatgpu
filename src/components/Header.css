@@ -72,7 +72,7 @@
 .brand-main {
   font-family: var(--font-logo);
   font-size: 21px;
-  font-weight: 900;
+  font-weight: 400;
   color: var(--accent);
   letter-spacing: 0.08em;
   text-shadow: 0 0 24px rgba(102,252,241,0.55);
